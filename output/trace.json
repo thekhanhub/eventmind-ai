@@ -1,6 +1,6 @@
 {
-  "runId": "run_1794984365376",
-  "updatedAt": "2026-11-18T06:46:05.519Z",
+  "runId": "run_1794984742141",
+  "updatedAt": "2026-11-18T06:52:22.283Z",
   "totalCalls": 1,
   "totalInputTokens": 0,
   "totalOutputTokens": 0,
@@ -8,7 +8,7 @@
   "trace": [
     {
       "callNumber": 1,
-      "runId": "run_1794984365376",
+      "runId": "run_1794984742141",
       "model": "gemini-2.0-flash",
       "area": "reading",
       "input": "Hello",
@@ -17,7 +17,7 @@
       "outputTokens": null,
       "totalTokens": null,
       "status": "error",
-      "timestamp": "2026-11-18T06:46:05.519Z",
+      "timestamp": "2026-11-18T06:52:22.283Z",
       "warning": "GEMINI_API_KEY is not configured in server environment or .env file.; Provider token usage metadata was unavailable."
     }
   ]
