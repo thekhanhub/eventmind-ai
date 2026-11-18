@@ -28,6 +28,16 @@ export const getRejected = async () => {
   return response.data;
 };
 
+export const getEvidence = async () => {
+  const response = await api.get('/evidence');
+  return response.data;
+};
+
+export const getHistory = async () => {
+  const response = await api.get('/history');
+  return response.data;
+};
+
 export const runInitialProcess = async (payload) => {
   const response = await api.post('/process/initial', payload);
   return response.data;
@@ -35,6 +45,11 @@ export const runInitialProcess = async (payload) => {
 
 export const runUpdateProcess = async (payload) => {
   const response = await api.post('/process/update', payload);
+  return response.data;
+};
+
+export const appendMessageAndProcess = async (messageText) => {
+  const response = await api.post('/messages/append', { messageText });
   return response.data;
 };
 
