@@ -36,6 +36,8 @@ export function validateConfig() {
       plan: path.join(rootDir, 'output', 'plan.json'),
       trace: path.join(rootDir, 'output', 'trace.json'),
       rejected: path.join(rootDir, 'output', 'rejected.json'),
+      evidence: path.join(rootDir, 'output', 'evidence.json'),
+      history: path.join(rootDir, 'output', 'history.json'),
     }
   };
 }

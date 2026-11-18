@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import config from '../config.js';
+import { messageReader } from '../services/message-reader.service.js';
+import { evidenceService } from '../services/evidence.service.js';
 
 /**
  * Shared Processing Engine for EventMind AI
@@ -9,23 +11,35 @@ import config from '../config.js';
 export async function processMessages({ filePath, rawText, isUpdate = false } = {}) {
   const targetPath = filePath || config.paths.messages;
 
-  let content = rawText;
-  if (!content) {
-    if (!fs.existsSync(targetPath)) {
-      throw new Error(
-        `Target messages file not found at: ${targetPath}\n` +
-        `Please copy the organizer's exact message file into 'data/messages.txt'.`
-      );
+  // Handle direct rawText payload (e.g. from UI input) vs file reading
+  let readResult;
+  if (rawText && typeof rawText === 'string') {
+    const trimmed = rawText.trim();
+    if (!trimmed) {
+      throw new Error('Provided raw message text is empty.');
     }
-    content = fs.readFileSync(targetPath, 'utf-8');
-  }
-
-  const trimmed = content.trim();
-  if (!trimmed) {
-    throw new Error(
-      `Input messages file at '${targetPath}' is empty.\n` +
-      `ACTION REQUIRED: Please copy the organizer's exact original messages into 'data/messages.txt' and rerun 'npm run process'.`
-    );
+    // Write temporarily or parse in-memory
+    const { parseRawMessages } = await import('../utils/message-parser.js');
+    const messages = parseRawMessages(rawText);
+    readResult = {
+      filePath: 'in-memory-input',
+      rawContent: rawText,
+      byteCount: Buffer.byteLength(rawText, 'utf8'),
+      messages,
+      newMessages: messages,
+      existingMessages: []
+    };
+  } else {
+    if (isUpdate) {
+      readResult = messageReader.readDelta(targetPath);
+    } else {
+      const initial = messageReader.readMessages(targetPath);
+      readResult = {
+        ...initial,
+        newMessages: initial.messages,
+        existingMessages: []
+      };
+    }
   }
 
   // Ensure output directory exists
@@ -33,11 +47,16 @@ export async function processMessages({ filePath, rawText, isUpdate = false } = 
     fs.mkdirSync(config.paths.outputDir, { recursive: true });
   }
 
-  // Phase 1 engine scaffolding; full pipeline (Reading -> Area reasoners -> Budget -> Validation) lands in Phase 2
+  // Register all parsed messages into the evidence service for provenance
+  evidenceService.registerMessages(readResult.messages || readResult.allMessages);
+
   return {
-    status: 'READY_FOR_PHASE_2',
-    targetPath,
-    messageBytes: Buffer.byteLength(content, 'utf8'),
+    status: 'INGESTED',
+    filePath: readResult.filePath,
+    byteCount: readResult.byteCount,
+    totalMessages: (readResult.messages || readResult.allMessages || []).length,
+    newMessagesCount: readResult.newMessages ? readResult.newMessages.length : 0,
+    existingMessagesCount: readResult.existingMessages ? readResult.existingMessages.length : 0,
     isUpdate,
     timestamp: new Date().toISOString()
   };
