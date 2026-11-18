@@ -1,0 +1,28 @@
+{
+  "name": "eventmind-ai",
+  "version": "1.0.0",
+  "description": "AI-powered, constraint-aware event planning agent for the Mind to Machine Hackathon",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"blue.bold,green.bold\" \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "process": "node server/src/cli.js",
+    "build": "npm run build --workspace=client",
+    "test": "node --test server/test/*.test.js",
+    "postinstall": "node scripts/ensure-rollup-wasm.js"
+  },
+  "devDependencies": {
+    "@rollup/wasm-node": "^4.68.5",
+    "concurrently": "^9.1.2"
+  },
+  "overrides": {
+    "rollup": "npm:@rollup/wasm-node@^4.34.8"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
