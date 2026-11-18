@@ -59,5 +59,8 @@ test('GET /api/health returns healthy status and metadata', async () => {
   assert.strictEqual(responseData.model, config.geminiModel);
   assert.strictEqual(typeof responseData.storage, 'object');
   assert.strictEqual(responseData.storage.messagesExists, true);
-  assert.strictEqual(responseData.storage.messagesEmpty, true);
+  assert.strictEqual(
+    responseData.storage.messagesEmpty,
+    fs.readFileSync(config.paths.messages, 'utf-8').trim().length === 0
+  );
 });

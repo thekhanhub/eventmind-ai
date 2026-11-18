@@ -36,6 +36,7 @@ export class ModelTracer {
     area,
     input,
     output,
+    latencyMs = null,
     usageMetadata = null,
     status = 'success',
     warning = null
@@ -87,6 +88,7 @@ export class ModelTracer {
       outputTokens,
       totalTokens: callTotalTokens,
       status,
+      latencyMs,
       timestamp: new Date().toISOString()
     };
 

@@ -12,14 +12,14 @@ Rules:
 
 Output strictly valid JSON conforming to:
 {
-  "name": "Full Venue Name, Islamabad",
+  "name": "Venue name supported by the evidence",
   "city": "Islamabad",
-  "address": "Specific address or sector in Islamabad",
-  "capacity": 150,
-  "cost": 65000,
-  "facilities": ["High-Speed Wi-Fi", "Backup Generator", "Projector & Sound", "Air Conditioning"],
-  "decisionRationale": "Explanation of why this venue was chosen based on evidence",
-  "evidenceUsed": ["ev_..."]
+  "address": "Address supported by the evidence, or null",
+  "capacity": "Number supported by evidence, or null",
+  "cost": "Estimated or sourced PKR amount, or null",
+  "facilities": ["Facilities supported by evidence"],
+  "decisionRationale": "Explain which details are sourced and which are estimates",
+  "evidenceUsed": ["Evidence IDs used"]
 }`;
 
 export class VenueService {
@@ -27,13 +27,16 @@ export class VenueService {
     this.adapter = adapter;
   }
 
-  async planVenue(evidenceList, requiredHeadcount = 100) {
+  async planVenue(evidenceList, requiredHeadcount = null) {
     const venueEvidence = evidenceList.filter(e => e.area === 'venue' || e.area === 'general');
 
     // Deterministic calculation of minimum capacity requirement
-    let calculatedHeadcount = requiredHeadcount;
+    let calculatedHeadcount = typeof requiredHeadcount === 'number' ? requiredHeadcount : null;
     for (const e of evidenceList) {
-      if ((e.area === 'venue' || e.area === 'general') && typeof e.value === 'number' && e.value > calculatedHeadcount) {
+      const isAttendanceEvidence = ['people', 'attendees', 'heads', 'persons'].includes(String(e.unit || '').toLowerCase()) ||
+        /attendees|attendance|participants|people|headcount/i.test(e.claim || '');
+      if (e.status === 'accepted' && isAttendanceEvidence && typeof e.value === 'number' &&
+          (calculatedHeadcount === null || e.value > calculatedHeadcount)) {
         calculatedHeadcount = e.value;
       }
     }
@@ -63,15 +66,13 @@ export class VenueService {
     const data = result.data || {};
 
     return {
-      name: data.name || 'Pak-China Friendship Centre, Islamabad',
-      city: 'Islamabad',
-      address: data.address || 'Garden Avenue, Shakarparian, Islamabad',
-      capacity: typeof data.capacity === 'number' ? Math.max(data.capacity, calculatedHeadcount) : calculatedHeadcount,
-      cost: typeof data.cost === 'number' ? data.cost : 65000,
-      facilities: Array.isArray(data.facilities) && data.facilities.length > 0 
-        ? data.facilities 
-        : ['High-Speed Wi-Fi', 'Backup Generator', 'Projector & Sound System'],
-      decisionRationale: data.decisionRationale || 'Selected physical venue in Islamabad meeting capacity and facility requirements.',
+      name: data.name || null,
+      city: data.city || null,
+      address: data.address || null,
+      capacity: typeof data.capacity === 'number' ? data.capacity : null,
+      cost: typeof data.cost === 'number' ? data.cost : null,
+      facilities: Array.isArray(data.facilities) ? data.facilities : [],
+      decisionRationale: data.decisionRationale || null,
       evidenceUsed: Array.isArray(data.evidenceUsed) ? data.evidenceUsed : venueEvidence.map(e => e.id)
     };
   }

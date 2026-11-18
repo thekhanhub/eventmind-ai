@@ -12,6 +12,10 @@ import { budgetService } from '../services/budget.service.js';
 import { validationService } from '../services/validation.service.js';
 import { dependencyService } from '../services/dependency.service.js';
 import { tracer } from '../ai/tracer.js';
+import { runWithRuntimeLimit } from '../ai/runtime-context.js';
+
+const INITIAL_RUNTIME_LIMIT_MS = 120000;
+const UPDATE_RUNTIME_LIMIT_MS = 60000;
 
 /**
  * Shared Core Processing Engine for EventMind AI
@@ -31,11 +35,21 @@ export async function processMessages({ filePath, rawText, forceInitial = false 
   console.log(`  Target Source: ${targetPath}`);
   console.log('====================================================');
 
-  if (isUpdateMode) {
-    return await executeIncrementalUpdate({ targetPath, rawText, existingPlan });
-  } else {
-    return await executeInitialRun({ targetPath, rawText });
-  }
+  const runtimeLimitMs = isUpdateMode ? UPDATE_RUNTIME_LIMIT_MS : INITIAL_RUNTIME_LIMIT_MS;
+  const startedAt = Date.now();
+  return runWithRuntimeLimit(async () => {
+    try {
+      const result = isUpdateMode
+        ? await executeIncrementalUpdate({ targetPath, rawText, existingPlan })
+        : await executeInitialRun({ targetPath, rawText });
+      result.elapsedMs = Date.now() - startedAt;
+      return result;
+    } finally {
+      const elapsedMs = Date.now() - startedAt;
+      console.log(`[EventMind AI] Run time: ${elapsedMs}ms (limit ${runtimeLimitMs}ms).`);
+      saveFullTraceArtifact();
+    }
+  }, runtimeLimitMs);
 }
 
 /**
@@ -69,19 +83,20 @@ async function executeInitialRun({ targetPath, rawText }) {
 
   // Call #2: Venue
   console.log('[EventMind AI] [venue] Planning physical Islamabad venue...');
-  const venue = await venueService.planVenue(acceptedEvidence, 120);
+  const attendeeCount = getAttendeeCount(acceptedEvidence);
+  const venue = await venueService.planVenue(acceptedEvidence, attendeeCount);
 
   // Call #3: Food
   console.log('[EventMind AI] [food] Planning 100% Halal catering...');
-  const food = await foodService.planFood(acceptedEvidence, venue.capacity || 120);
+  const food = await foodService.planFood(acceptedEvidence, attendeeCount);
 
   // Call #4: Judging
   console.log('[EventMind AI] [judging] Planning judge allocations & rubric...');
-  const judging = await judgingService.planJudging(acceptedEvidence, 10, 60);
+  const judging = await judgingService.planJudging(acceptedEvidence);
 
   // Call #5: Schedule
   console.log('[EventMind AI] [schedule] Planning strictly 240-minute schedule...');
-  const schedule = await scheduleService.planSchedule(acceptedEvidence, judging.totalJudgingMinutes || 60);
+  const schedule = await scheduleService.planSchedule(acceptedEvidence, judging.totalJudgingMinutes);
 
   // Deterministic JS Budget (0 AI calls)
   console.log('[EventMind AI] [budget] Calculating deterministic budget in JavaScript (0 AI calls)...');
@@ -90,7 +105,7 @@ async function executeInitialRun({ targetPath, rawText }) {
     food,
     judging,
     evidenceList: acceptedEvidence,
-    defaultCap: 250000
+    defaultCap: null
   });
 
   const candidatePlan = buildPlanObject({
@@ -169,7 +184,12 @@ async function executeIncrementalUpdate({ targetPath, rawText, existingPlan }) {
 
   // Calculate Dependency Closure using JavaScript
   const dependencyAnalysis = dependencyService.calculateDependencies(readingResult.claims, existingPlan);
-  const { aiAffectedAreas, jsAffectedAreas, explanations } = dependencyAnalysis;
+  const aiAffectedAreas = dependencyAnalysis.aiAffectedAreas.slice(0, 4);
+  const { jsAffectedAreas, explanations } = dependencyAnalysis;
+
+  if (1 + aiAffectedAreas.length > 5) {
+    throw new Error('Incremental update exceeded the maximum of five Gemini calls.');
+  }
 
   // Print required PREDICTION OUTPUT before executing area calls
   console.log('\n====================================================');
@@ -196,25 +216,38 @@ async function executeIncrementalUpdate({ targetPath, rawText, existingPlan }) {
   // Selective Call: Venue
   if (aiAffectedAreas.includes('venue')) {
     console.log('[EventMind AI] [venue] Recalculating venue...');
-    currentAreas.venue = await venueService.planVenue(updatedEvidence, currentAreas.food?.orderHeadcount || 120);
+    currentAreas.venue = await venueService.planVenue(
+      updatedEvidence,
+      currentAreas.food?.orderHeadcount ?? getAttendeeCount(updatedEvidence)
+    );
   }
 
   // Selective Call: Food
   if (aiAffectedAreas.includes('food')) {
     console.log('[EventMind AI] [food] Recalculating food...');
-    currentAreas.food = await foodService.planFood(updatedEvidence, currentAreas.venue?.capacity || 120);
+    currentAreas.food = await foodService.planFood(
+      updatedEvidence,
+      currentAreas.food?.orderHeadcount ?? getAttendeeCount(updatedEvidence)
+    );
   }
 
   // Selective Call: Judging
   if (aiAffectedAreas.includes('judging')) {
     console.log('[EventMind AI] [judging] Recalculating judging...');
-    currentAreas.judging = await judgingService.planJudging(updatedEvidence, currentAreas.judging?.teamCount || 10, 60);
+    currentAreas.judging = await judgingService.planJudging(
+      updatedEvidence,
+      currentAreas.judging?.teamCount ?? null,
+      currentAreas.judging?.totalJudgingMinutes ?? null
+    );
   }
 
   // Selective Call: Schedule
   if (aiAffectedAreas.includes('schedule')) {
     console.log('[EventMind AI] [schedule] Recalculating schedule...');
-    currentAreas.schedule = await scheduleService.planSchedule(updatedEvidence, currentAreas.judging?.totalJudgingMinutes || 60);
+    currentAreas.schedule = await scheduleService.planSchedule(
+      updatedEvidence,
+      currentAreas.judging?.totalJudgingMinutes ?? null
+    );
   }
 
   // Deterministic JS Budget Recalculation (0 AI calls)
@@ -225,7 +258,7 @@ async function executeIncrementalUpdate({ targetPath, rawText, existingPlan }) {
       food: currentAreas.food,
       judging: currentAreas.judging,
       evidenceList: updatedEvidence,
-      defaultCap: existingPlan.areas?.budget?.budgetCap || 250000
+      defaultCap: existingPlan.areas?.budget?.budgetCap ?? null
     });
   }
 
@@ -320,18 +353,40 @@ function buildPlanObject({ runId, mode, venue, schedule, food, judging, budget, 
 }
 
 function savePlanArtifacts(plan) {
-  // Save to data/outputs/final-plan.json
+  // Save to data/outputs/final-plan.json AND data/outputs/full-trace.json
   const legacyDir = path.join(config.rootDir, 'data', 'outputs');
   if (!fs.existsSync(legacyDir)) {
     fs.mkdirSync(legacyDir, { recursive: true });
   }
   fs.writeFileSync(path.join(legacyDir, 'final-plan.json'), JSON.stringify(plan, null, 2), 'utf-8');
 
+  saveFullTraceArtifact();
+
   // Save to output/plan.json
   if (!fs.existsSync(config.paths.outputDir)) {
     fs.mkdirSync(config.paths.outputDir, { recursive: true });
   }
   fs.writeFileSync(config.paths.plan, JSON.stringify(plan, null, 2), 'utf-8');
+}
+
+function saveFullTraceArtifact() {
+  const legacyDir = path.join(config.rootDir, 'data', 'outputs');
+  if (!fs.existsSync(legacyDir)) fs.mkdirSync(legacyDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(legacyDir, 'full-trace.json'),
+    JSON.stringify(tracer.getSummary(), null, 2),
+    'utf-8'
+  );
+}
+
+function getAttendeeCount(evidenceList = []) {
+  const headcountClaims = evidenceList.filter(e =>
+    e.status === 'accepted' &&
+    typeof e.value === 'number' &&
+    (['people', 'attendees', 'heads', 'persons'].includes(String(e.unit || '').toLowerCase()) ||
+      /attendees|attendance|participants|people|headcount/i.test(e.claim || ''))
+  );
+  return headcountClaims.length ? Math.max(...headcountClaims.map(e => e.value)) : null;
 }
 
 function loadExistingPlan() {

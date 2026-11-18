@@ -1,0 +1,39 @@
+Notice #1 - Organizing Committee (Mind to Machine Hackathon)
+Date: 10 Oct 2026
+All teams: The physical hackathon will be hosted in Islamabad. Total event duration is strictly 4 hours (240 minutes) with no extensions. We have 10 shortlisted student teams with approximately 120 total attendees including mentors and guests.
+
+[11/10/2026, 09:30 AM] Asif (Patron): Approved budget ceiling for the physical event is 250,000 PKR. All expenses including venue, catering, AV, and prizes must remain strictly within this limit.
+
+[11/10/2026, 11:15 AM] Shah Zaib (Lead): Islamabad mein venue final karni hai. Pak-China Friendship Centre hall availability confirm hai, capacity 150 logon ki hai with backup generator and high-speed Wi-Fi. Hall rent is 65,000 PKR.
+
+From: Catering Partner <orders@isbgourmet.pk>
+Date: 12 Oct 2026 10:00:00
+Subject: Catering Quotation - Hi-Tea Menu
+Dear Organizers, we propose our Executive Hi-Tea package at 850 PKR per head. Menu: Chicken Patties, Vegetable Spring Rolls, Sandwiches, Gulab Jamun, Karak Chai & Green Tea, Mineral Water. 100% Halal certified catering guaranteed.
+
+[12/10/2026, 14:00] Usman (Student Lead): Kya hum event Lahore Expo Centre shift kar saktay hain? Wahan space bari hai.
+
+[12/10/2026, 15:30] Uzair: Asr Namaz break lazmi schedule karni hai for 15 minutes. Timeline gap-free honi chahiye.
+
+From: Judging Committee <judging@hackathon.org>
+Date: 13 Oct 2026 11:00:00
+Subject: Judge Panel Confirmation
+Confirmed Judges:
+1. Dr. Sarah Khan (AI & Machine Learning Lead, NUST)
+2. Taimur Malik (Cloud & Distributed Systems Architect)
+Standard evaluation rubric: Innovation (35%), Technical Execution (30%), Practical Viability (20%), Presentation (15%). 60 minutes allocated for 10 team pitches.
+
+[13/10/2026, 16:45] Guest: Match ka score kya chal raha hai? Final kon jeet raha hai?
+
+[14/10/2026, 09:00] Old Volunteer: Can we stretch the schedule to 5 hours so participants get more time?
+
+[14/10/2026, 12:00] Event Director: Reconfirming official timing: Event starts at 14:00 (2:00 PM) sharp and concludes at 18:00 (6:00 PM). Schedule duration must equal 240 minutes.
+
+
+[15/10/2026, 10:00] Catering Partner: Update on Hi-Tea quotation: due to seasonal discount, price is reduced from 850 PKR to 800 PKR per head. All menu items remain unchanged.
+
+
+[15/10/2026, 11:30] Irresponsible: Sirf 20 logo ka khana mangwatay hain baki log khud lay ayen gay budget bachanay k liye.
+
+
+[15/10/2026, 13:00] Shah Zaib: Final headcount confirmed: 125 attendees total (including 5 additional industry mentors). Venue capacity 150 easily covers this.

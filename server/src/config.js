@@ -19,7 +19,7 @@ export function validateConfig() {
     warnings.push('GEMINI_API_KEY is not defined in .env. AI processing calls will require an active key.');
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+  const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
   const port = parseInt(process.env.PORT, 10) || 3001;
   const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
 

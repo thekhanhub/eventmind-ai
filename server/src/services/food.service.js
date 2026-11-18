@@ -7,18 +7,18 @@ Rules:
 1. Determine order quantity from the required attendance. NEVER reduce order below required headcount.
 2. The food MUST be 100% Halal. Include vegetarian options.
 3. Align the menu type with the event window (e.g. Hi-Tea / Evening Refreshments, Lunch, or Dinner).
-4. Extract or specify realistic cost per head in PKR.
-5. Provide an itemized menu list matching Pakistani catering standards (e.g. patties, samosas/spring rolls, sandwiches, sweets, tea/green tea).
+4. If no sourced price is provided, return a clearly identified estimate in PKR per head.
+5. Provide a menu that reflects the evidence and event window; do not copy example menus.
 
 Output strictly valid JSON conforming to:
 {
-  "caterer": "Caterer Name, Islamabad",
-  "menuType": "Hi-Tea & Refreshments" | "Lunch" | "Dinner",
-  "items": ["Chicken Patties", "Vegetable Spring Rolls", "Sandwiches", "Gulab Jamun", "Karak Chai & Green Tea", "Mineral Water"],
-  "dietary": "100% Halal; vegetarian options included",
-  "costPerHead": 850,
-  "decisionRationale": "Explanation of menu choice and quantities based on evidence",
-  "evidenceUsed": ["ev_..."]
+  "caterer": "Caterer supported by the evidence, or null",
+  "menuType": "Recommended meal or refreshments type",
+  "items": ["Menu items supported by the event context"],
+  "dietary": "Confirm 100% Halal and list any stated dietary accommodations",
+  "costPerHead": null,
+  "decisionRationale": "State whether the price is sourced or an estimate and explain the choice",
+  "evidenceUsed": ["Evidence IDs used"]
 }`;
 
 export class FoodService {
@@ -26,16 +26,17 @@ export class FoodService {
     this.adapter = adapter;
   }
 
-  async planFood(evidenceList, requiredHeadcount = 100) {
+  async planFood(evidenceList, requiredHeadcount = null) {
     const foodEvidence = evidenceList.filter(e => e.area === 'food' || e.area === 'general');
 
     // Deterministic calculation of headcount from evidence
-    let confirmedHeadcount = requiredHeadcount;
+    let confirmedHeadcount = typeof requiredHeadcount === 'number' ? requiredHeadcount : null;
     for (const e of evidenceList) {
-      if ((e.area === 'food' || e.area === 'venue' || e.area === 'general') && typeof e.value === 'number') {
-        if (e.unit === 'people' || e.unit === 'attendees' || e.unit === 'heads' || e.unit === 'persons') {
-          confirmedHeadcount = Math.max(confirmedHeadcount, e.value);
-        }
+      const isHeadcount = ['people', 'attendees', 'heads', 'persons'].includes(String(e.unit || '').toLowerCase()) ||
+        /attendees|attendance|participants|people|headcount/i.test(e.claim || '');
+      if (e.status === 'accepted' && isHeadcount && typeof e.value === 'number' &&
+          (confirmedHeadcount === null || e.value > confirmedHeadcount)) {
+        confirmedHeadcount = e.value;
       }
     }
 
@@ -62,22 +63,28 @@ export class FoodService {
     });
 
     const data = result.data || {};
-    const costPerHead = typeof data.costPerHead === 'number' && data.costPerHead > 0 ? data.costPerHead : 850;
+    const sourcedUnitCost = evidenceList.find(e => e.status === 'accepted' &&
+      typeof e.value === 'number' && e.value > 0 &&
+      (e.unit === 'PKR/head' || e.unit === 'PKR per head' ||
+        (/food|catering|meal/i.test(e.claim || '') && /per head|each person/i.test(e.claim || ''))));
+    const costPerHead = typeof data.costPerHead === 'number' && data.costPerHead > 0
+      ? data.costPerHead
+      : sourcedUnitCost?.value ?? null;
     
     // Deterministic JS calculation of total food cost (Never AI arithmetic)
-    const totalFoodCost = confirmedHeadcount * costPerHead;
+    const totalFoodCost = typeof confirmedHeadcount === 'number' && typeof costPerHead === 'number'
+      ? confirmedHeadcount * costPerHead
+      : null;
 
     return {
-      caterer: data.caterer || 'Islamabad Gourmet Catering',
-      menuType: data.menuType || 'Hi-Tea & Evening Refreshments',
-      items: Array.isArray(data.items) && data.items.length > 0 
-        ? data.items 
-        : ['Chicken Patties', 'Vegetable Spring Rolls', 'Club Sandwiches', 'Gulab Jamun', 'Karak Chai & Green Tea', 'Mineral Water'],
-      dietary: data.dietary || '100% Halal; vegetarian options included',
+      caterer: data.caterer || null,
+      menuType: data.menuType || null,
+      items: Array.isArray(data.items) ? data.items : [],
+      dietary: data.dietary || null,
       orderHeadcount: confirmedHeadcount,
       costPerHead,
       totalFoodCost,
-      decisionRationale: data.decisionRationale || `Catering planned for ${confirmedHeadcount} attendees at ${costPerHead} PKR per head.`,
+      decisionRationale: data.decisionRationale || null,
       evidenceUsed: Array.isArray(data.evidenceUsed) ? data.evidenceUsed : foodEvidence.map(e => e.id)
     };
   }

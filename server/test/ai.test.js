@@ -5,6 +5,7 @@ import path from 'path';
 import os from 'os';
 import { ModelTracer, ALLOWED_AREAS } from '../src/ai/tracer.js';
 import { GeminiAdapter } from '../src/ai/adapter.js';
+import config from '../src/config.js';
 
 test('ModelTracer strictly enforces allowed area taxonomy', () => {
   const tmpTracePath = path.join(os.tmpdir(), `test-trace-${Date.now()}.json`);
@@ -86,16 +87,23 @@ test('ModelTracer preserves token integrity without fabricating numbers', () => 
 
 test('GeminiAdapter handles missing API key cleanly and logs error trace', async () => {
   const adapter = new GeminiAdapter();
-  adapter.apiKey = ''; // simulate unconfigured key
-  adapter.client = null;
-
-  await assert.rejects(
-    async () => {
-      await adapter.callModel({
-        prompt: 'Hello',
-        area: 'reading'
-      });
-    },
-    /GEMINI_API_KEY is not configured/
-  );
+  const originalConfigKey = config.geminiApiKey;
+  const originalEnvKey = process.env.GEMINI_API_KEY;
+  config.geminiApiKey = '';
+  delete process.env.GEMINI_API_KEY;
+  try {
+    await assert.rejects(
+      async () => {
+        await adapter.callModel({
+          prompt: 'Hello',
+          area: 'reading'
+        });
+      },
+      /GEMINI_API_KEY is not configured/
+    );
+  } finally {
+    config.geminiApiKey = originalConfigKey;
+    if (originalEnvKey === undefined) delete process.env.GEMINI_API_KEY;
+    else process.env.GEMINI_API_KEY = originalEnvKey;
+  }
 });

@@ -254,7 +254,7 @@ export default function App() {
             {/* Model Badge */}
             <div className="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5">
               <span className="text-slate-400">Model:</span>
-              <span className="font-semibold text-indigo-300 font-mono">{health?.model || 'gemini-2.0-flash'}</span>
+              <span className="font-semibold text-indigo-300 font-mono">{health?.model || 'gemini-3.8-flash'}</span>
             </div>
 
             {/* Token Counter */}

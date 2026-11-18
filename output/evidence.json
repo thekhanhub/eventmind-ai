@@ -1,0 +1,413 @@
+{
+  "updatedAt": "2026-11-18T08:01:03.168Z",
+  "totalClaims": 14,
+  "messagesTracked": 13,
+  "claims": [
+    {
+      "id": "ev_76bab6cf8d",
+      "messageId": "msg_7385ff6a6b",
+      "area": "venue",
+      "claim": "Physical hackathon hosted in Islamabad with approximately 120 total attendees",
+      "value": 120,
+      "unit": "attendees",
+      "source": "Organizing Committee",
+      "date": "10 Oct 2026",
+      "type": "constraint",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_037398f426",
+      "messageId": "msg_7385ff6a6b",
+      "area": "schedule",
+      "claim": "Total event duration is strictly 4 hours (240 minutes) with no extensions",
+      "value": 240,
+      "unit": "minutes",
+      "source": "Organizing Committee",
+      "date": "10 Oct 2026",
+      "type": "constraint",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_1aa0a769bb",
+      "messageId": "msg_7a9ca0835a",
+      "area": "budget",
+      "claim": "Approved budget ceiling is 250,000 PKR",
+      "value": 250000,
+      "unit": "PKR",
+      "source": "Asif (Patron)",
+      "date": "11/10/2026, 09:30 AM",
+      "type": "constraint",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_ff03d9be1f",
+      "messageId": "msg_20fd7f395f",
+      "area": "venue",
+      "claim": "Pak-China Friendship Centre hall selected with capacity 150 and rent of 65,000 PKR",
+      "value": 65000,
+      "unit": "PKR",
+      "source": "Shah Zaib (Lead)",
+      "date": "11/10/2026, 11:15 AM",
+      "type": "fact",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_f0204de127",
+      "messageId": "msg_4fb165eff2",
+      "area": "food",
+      "claim": "Executive Hi-Tea package proposed at 850 PKR per head, 100% Halal certified",
+      "value": 850,
+      "unit": "PKR",
+      "source": "Catering Partner",
+      "date": "12 Oct 2026",
+      "type": "fact",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_e483ae0ca8",
+      "messageId": "msg_2915a7bd13",
+      "area": "venue",
+      "claim": "Shift event to Lahore Expo Centre",
+      "value": null,
+      "unit": null,
+      "source": "Usman (Student Lead)",
+      "date": "12/10/2026, 14:00",
+      "type": "request",
+      "status": "rejected",
+      "confidence": 1,
+      "reason": "Violates hard constraint requiring the event to be held physically in Islamabad."
+    },
+    {
+      "id": "ev_e8e3061e8f",
+      "messageId": "msg_8480f01400",
+      "area": "schedule",
+      "claim": "Include Asr Namaz break for 15 minutes",
+      "value": 15,
+      "unit": "minutes",
+      "source": "Uzair",
+      "date": "12/10/2026, 15:30",
+      "type": "request",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_28f356d706",
+      "messageId": "msg_61e6bcf1ac",
+      "area": "judging",
+      "claim": "Confirmed judges and 60 minutes allocated for 10 team pitches with standard evaluation rubric",
+      "value": 60,
+      "unit": "minutes",
+      "source": "Judging Committee",
+      "date": "13 Oct 2026",
+      "type": "fact",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_84cadcb9d6",
+      "messageId": "msg_a0589ac8f9",
+      "area": "general",
+      "claim": "Asking about match score",
+      "value": null,
+      "unit": null,
+      "source": "Guest",
+      "date": "13/10/2026, 16:45",
+      "type": "irrelevant",
+      "status": "irrelevant",
+      "confidence": 1,
+      "reason": "Chit-chat / sports score query unrelated to event planning."
+    },
+    {
+      "id": "ev_7c3356c138",
+      "messageId": "msg_2332df308f",
+      "area": "schedule",
+      "claim": "Stretch the schedule to 5 hours",
+      "value": 300,
+      "unit": "minutes",
+      "source": "Old Volunteer",
+      "date": "14/10/2026, 09:00",
+      "type": "request",
+      "status": "rejected",
+      "confidence": 1,
+      "reason": "Violates hard event constraint stating total event duration must be strictly 4 hours (240 minutes)."
+    },
+    {
+      "id": "ev_0ce2748e39",
+      "messageId": "msg_4d147ab4a4",
+      "area": "schedule",
+      "claim": "Event starts at 14:00 and concludes at 18:00 (240 minutes total)",
+      "value": 240,
+      "unit": "minutes",
+      "source": "Event Director",
+      "date": "14/10/2026, 12:00",
+      "type": "constraint",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_2a15e4aa04",
+      "messageId": "msg_812d13c241",
+      "area": "food",
+      "claim": "Hi-Tea quotation price reduced from 850 PKR to 800 PKR per head due to seasonal discount, menu unchanged",
+      "value": 800,
+      "unit": "PKR",
+      "source": "Catering Partner",
+      "date": "15/10/2026, 10:00",
+      "type": "correction",
+      "status": "accepted",
+      "confidence": 1,
+      "reason": null
+    },
+    {
+      "id": "ev_43aba55a8a",
+      "messageId": "msg_20646d7669",
+      "area": "food",
+      "claim": "Order food for only 20 people to save budget while remaining attendees bring their own",
+      "value": 20,
+      "unit": "people",
+      "source": "Irresponsible",
+      "date": "15/10/2026, 11:30",
+      "type": "request",
+      "status": "rejected",
+      "confidence": 0.95,
+      "reason": "Contradicts established attendee count of approximately 120 people and standard catering requirements for formal hackathon events."
+    },
+    {
+      "id": "ev_47dd8108b7",
+      "messageId": "msg_54946819e2",
+      "area": "venue",
+      "claim": "Final headcount confirmed as 125 attendees total including 5 additional industry mentors",
+      "value": 125,
+      "unit": "attendees",
+      "source": "Shah Zaib",
+      "date": "15/10/2026, 13:00",
+      "type": "fact",
+      "status": "accepted",
+      "confidence": 0.95,
+      "reason": null
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_7385ff6a6b",
+      "index": 1,
+      "senderRaw": "Organizing Committee (Mind to Machine Hackathon)\nDate",
+      "dateRaw": "Notice #1",
+      "dateParsed": "2000-12-31T19:00:00.000Z",
+      "subject": null,
+      "body": "10 Oct 2026\nAll teams: The physical hackathon will be hosted in Islamabad. Total event duration is strictly 4 hours (240 minutes) with no extensions. We have 10 shortlisted student teams with approximately 120 total attendees including mentors and guests.",
+      "raw": "Notice #1 - Organizing Committee (Mind to Machine Hackathon)\nDate: 10 Oct 2026\nAll teams: The physical hackathon will be hosted in Islamabad. Total event duration is strictly 4 hours (240 minutes) with no extensions. We have 10 shortlisted student teams with approximately 120 total attendees including mentors and guests.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 1,
+        "lineEnd": 3,
+        "byteOffset": 0
+      }
+    },
+    {
+      "id": "msg_7a9ca0835a",
+      "index": 2,
+      "senderRaw": "Asif (Patron)",
+      "dateRaw": "11/10/2026, 09:30 AM",
+      "dateParsed": "2026-11-10T04:30:00.000Z",
+      "subject": null,
+      "body": "Approved budget ceiling for the physical event is 250,000 PKR. All expenses including venue, catering, AV, and prizes must remain strictly within this limit.",
+      "raw": "[11/10/2026, 09:30 AM] Asif (Patron): Approved budget ceiling for the physical event is 250,000 PKR. All expenses including venue, catering, AV, and prizes must remain strictly within this limit.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 5,
+        "lineEnd": 5,
+        "byteOffset": 324
+      }
+    },
+    {
+      "id": "msg_20fd7f395f",
+      "index": 3,
+      "senderRaw": "Shah Zaib (Lead)",
+      "dateRaw": "11/10/2026, 11:15 AM",
+      "dateParsed": "2026-11-10T06:15:00.000Z",
+      "subject": null,
+      "body": "Islamabad mein venue final karni hai. Pak-China Friendship Centre hall availability confirm hai, capacity 150 logon ki hai with backup generator and high-speed Wi-Fi. Hall rent is 65,000 PKR.",
+      "raw": "[11/10/2026, 11:15 AM] Shah Zaib (Lead): Islamabad mein venue final karni hai. Pak-China Friendship Centre hall availability confirm hai, capacity 150 logon ki hai with backup generator and high-speed Wi-Fi. Hall rent is 65,000 PKR.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 7,
+        "lineEnd": 7,
+        "byteOffset": 521
+      }
+    },
+    {
+      "id": "msg_4fb165eff2",
+      "index": 4,
+      "senderRaw": "Catering Partner <orders@isbgourmet.pk>",
+      "dateRaw": "12 Oct 2026 10:00:00",
+      "dateParsed": "2026-10-12T05:00:00.000Z",
+      "subject": "Catering Quotation - Hi-Tea Menu",
+      "body": "From: Catering Partner <orders@isbgourmet.pk>\nDate: 12 Oct 2026 10:00:00\nSubject: Catering Quotation - Hi-Tea Menu\nDear Organizers, we propose our Executive Hi-Tea package at 850 PKR per head. Menu: Chicken Patties, Vegetable Spring Rolls, Sandwiches, Gulab Jamun, Karak Chai & Green Tea, Mineral Water. 100% Halal certified catering guaranteed.",
+      "raw": "From: Catering Partner <orders@isbgourmet.pk>\nDate: 12 Oct 2026 10:00:00\nSubject: Catering Quotation - Hi-Tea Menu\nDear Organizers, we propose our Executive Hi-Tea package at 850 PKR per head. Menu: Chicken Patties, Vegetable Spring Rolls, Sandwiches, Gulab Jamun, Karak Chai & Green Tea, Mineral Water. 100% Halal certified catering guaranteed.",
+      "format": "email",
+      "position": {
+        "lineStart": 9,
+        "lineEnd": 12,
+        "byteOffset": 755
+      }
+    },
+    {
+      "id": "msg_2915a7bd13",
+      "index": 5,
+      "senderRaw": "Usman (Student Lead)",
+      "dateRaw": "12/10/2026, 14:00",
+      "dateParsed": "2026-12-10T09:00:00.000Z",
+      "subject": null,
+      "body": "Kya hum event Lahore Expo Centre shift kar saktay hain? Wahan space bari hai.",
+      "raw": "[12/10/2026, 14:00] Usman (Student Lead): Kya hum event Lahore Expo Centre shift kar saktay hain? Wahan space bari hai.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 14,
+        "lineEnd": 14,
+        "byteOffset": 1102
+      }
+    },
+    {
+      "id": "msg_8480f01400",
+      "index": 6,
+      "senderRaw": "Uzair",
+      "dateRaw": "12/10/2026, 15:30",
+      "dateParsed": "2026-12-10T10:30:00.000Z",
+      "subject": null,
+      "body": "Asr Namaz break lazmi schedule karni hai for 15 minutes. Timeline gap-free honi chahiye.",
+      "raw": "[12/10/2026, 15:30] Uzair: Asr Namaz break lazmi schedule karni hai for 15 minutes. Timeline gap-free honi chahiye.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 16,
+        "lineEnd": 16,
+        "byteOffset": 1223
+      }
+    },
+    {
+      "id": "msg_61e6bcf1ac",
+      "index": 7,
+      "senderRaw": "Judging Committee <judging@hackathon.org>",
+      "dateRaw": "13 Oct 2026 11:00:00",
+      "dateParsed": "2026-10-13T06:00:00.000Z",
+      "subject": "Judge Panel Confirmation",
+      "body": "From: Judging Committee <judging@hackathon.org>\nDate: 13 Oct 2026 11:00:00\nSubject: Judge Panel Confirmation\nConfirmed Judges:\n1. Dr. Sarah Khan (AI & Machine Learning Lead, NUST)\n2. Taimur Malik (Cloud & Distributed Systems Architect)\nStandard evaluation rubric: Innovation (35%), Technical Execution (30%), Practical Viability (20%), Presentation (15%). 60 minutes allocated for 10 team pitches.",
+      "raw": "From: Judging Committee <judging@hackathon.org>\nDate: 13 Oct 2026 11:00:00\nSubject: Judge Panel Confirmation\nConfirmed Judges:\n1. Dr. Sarah Khan (AI & Machine Learning Lead, NUST)\n2. Taimur Malik (Cloud & Distributed Systems Architect)\nStandard evaluation rubric: Innovation (35%), Technical Execution (30%), Practical Viability (20%), Presentation (15%). 60 minutes allocated for 10 team pitches.",
+      "format": "email",
+      "position": {
+        "lineStart": 18,
+        "lineEnd": 24,
+        "byteOffset": 1340
+      }
+    },
+    {
+      "id": "msg_a0589ac8f9",
+      "index": 8,
+      "senderRaw": "Guest",
+      "dateRaw": "13/10/2026, 16:45",
+      "dateParsed": "2026-10-13T16:45:00.000Z",
+      "subject": null,
+      "body": "Match ka score kya chal raha hai? Final kon jeet raha hai?",
+      "raw": "[13/10/2026, 16:45] Guest: Match ka score kya chal raha hai? Final kon jeet raha hai?",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 26,
+        "lineEnd": 26,
+        "byteOffset": 1739
+      }
+    },
+    {
+      "id": "msg_2332df308f",
+      "index": 9,
+      "senderRaw": "Old Volunteer",
+      "dateRaw": "14/10/2026, 09:00",
+      "dateParsed": "2026-10-14T09:00:00.000Z",
+      "subject": null,
+      "body": "Can we stretch the schedule to 5 hours so participants get more time?",
+      "raw": "[14/10/2026, 09:00] Old Volunteer: Can we stretch the schedule to 5 hours so participants get more time?",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 28,
+        "lineEnd": 28,
+        "byteOffset": 1826
+      }
+    },
+    {
+      "id": "msg_4d147ab4a4",
+      "index": 10,
+      "senderRaw": "Event Director",
+      "dateRaw": "14/10/2026, 12:00",
+      "dateParsed": "2026-10-14T12:00:00.000Z",
+      "subject": null,
+      "body": "Reconfirming official timing: Event starts at 14:00 (2:00 PM) sharp and concludes at 18:00 (6:00 PM). Schedule duration must equal 240 minutes.",
+      "raw": "[14/10/2026, 12:00] Event Director: Reconfirming official timing: Event starts at 14:00 (2:00 PM) sharp and concludes at 18:00 (6:00 PM). Schedule duration must equal 240 minutes.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 30,
+        "lineEnd": 30,
+        "byteOffset": 1932
+      }
+    },
+    {
+      "id": "msg_812d13c241",
+      "index": 11,
+      "senderRaw": "Catering Partner",
+      "dateRaw": "15/10/2026, 10:00",
+      "dateParsed": "2026-10-15T10:00:00.000Z",
+      "subject": null,
+      "body": "Update on Hi-Tea quotation: due to seasonal discount, price is reduced from 850 PKR to 800 PKR per head. All menu items remain unchanged.",
+      "raw": "[15/10/2026, 10:00] Catering Partner: Update on Hi-Tea quotation: due to seasonal discount, price is reduced from 850 PKR to 800 PKR per head. All menu items remain unchanged.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 33,
+        "lineEnd": 33,
+        "byteOffset": 2114
+      }
+    },
+    {
+      "id": "msg_20646d7669",
+      "index": 12,
+      "senderRaw": "Irresponsible",
+      "dateRaw": "15/10/2026, 11:30",
+      "dateParsed": "2026-10-15T11:30:00.000Z",
+      "subject": null,
+      "body": "Sirf 20 logo ka khana mangwatay hain baki log khud lay ayen gay budget bachanay k liye.",
+      "raw": "[15/10/2026, 11:30] Irresponsible: Sirf 20 logo ka khana mangwatay hain baki log khud lay ayen gay budget bachanay k liye.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 36,
+        "lineEnd": 36,
+        "byteOffset": 2292
+      }
+    },
+    {
+      "id": "msg_54946819e2",
+      "index": 13,
+      "senderRaw": "Shah Zaib",
+      "dateRaw": "15/10/2026, 13:00",
+      "dateParsed": "2026-10-15T13:00:00.000Z",
+      "subject": null,
+      "body": "Final headcount confirmed: 125 attendees total (including 5 additional industry mentors). Venue capacity 150 easily covers this.",
+      "raw": "[15/10/2026, 13:00] Shah Zaib: Final headcount confirmed: 125 attendees total (including 5 additional industry mentors). Venue capacity 150 easily covers this.",
+      "format": "whatsapp",
+      "position": {
+        "lineStart": 39,
+        "lineEnd": 39,
+        "byteOffset": 2417
+      }
+    }
+  ]
+}

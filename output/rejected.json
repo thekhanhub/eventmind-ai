@@ -1,0 +1,38 @@
+{
+  "updatedAt": "2026-11-18T08:01:03.169Z",
+  "count": 4,
+  "rejected": [
+    {
+      "claimId": "ev_e483ae0ca8",
+      "messageId": "msg_2915a7bd13",
+      "area": "venue",
+      "claim": "Shift event to Lahore Expo Centre",
+      "source": "Usman (Student Lead)",
+      "reason": "Violates hard constraint requiring the event to be held physically in Islamabad."
+    },
+    {
+      "claimId": "ev_84cadcb9d6",
+      "messageId": "msg_a0589ac8f9",
+      "area": "general",
+      "claim": "Asking about match score",
+      "source": "Guest",
+      "reason": "Chit-chat / sports score query unrelated to event planning."
+    },
+    {
+      "claimId": "ev_7c3356c138",
+      "messageId": "msg_2332df308f",
+      "area": "schedule",
+      "claim": "Stretch the schedule to 5 hours",
+      "source": "Old Volunteer",
+      "reason": "Violates hard event constraint stating total event duration must be strictly 4 hours (240 minutes)."
+    },
+    {
+      "claimId": "ev_43aba55a8a",
+      "messageId": "msg_20646d7669",
+      "area": "food",
+      "claim": "Order food for only 20 people to save budget while remaining attendees bring their own",
+      "source": "Irresponsible",
+      "reason": "Contradicts established attendee count of approximately 120 people and standard catering requirements for formal hackathon events."
+    }
+  ]
+}
